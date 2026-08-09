@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRELLE FINANCING</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    .login {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #102b69, #2f6fed);
+    }
+
+    .login-box {
+      background: white;
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.2);
+    }
+
+    .logo {
+      width: 65px;
+      height: 65px;
+      background: #102b69;
+      color: white;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 13px 18px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary {
+      background: #102b69;
+      color: white;
+      width: 100%;
+    }
+
+    .app {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 230px;
+      background: #102b69;
+      color: white;
+      padding: 22px 15px;
+    }
+
+    .brand {
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .nav button {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      color: #dbe6ff;
+      margin: 4px 0;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      background: rgba(255,255,255,.15);
+      color: white;
+    }
+
+    .main {
+      margin-left: 230px;
+      padding: 25px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .number {
+      font-size: 25px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .muted {
+      color: #6b7280;
+    }
+
+    @media(max-width:800px) {
+      .sidebar {
+        width: 70px;
+      }
+
+      .brand {
+        font-size: 0;
+      }
+
+      .brand::after {
+        content: "DF";
+        font-size: 18px;
+      }
+
+      .nav button {
+        font-size: 0;
+        text-align: center;
+      }
+
+      .main {
+        margin-left: 70px;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width:500px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .main {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="login" class="login">
+
+    <div class="login-box">
+
+      <div class="logo">DF</div>
+
+      <h1>DRELLE FINANCING</h1>
+
+      <p>Financial Management System</p>
+
+      <label>Email</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+      >
+
+      <label>Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter password"
+      >
+
+      <button class="primary" onclick="login()">
+        Sign In
+      </button>
+
+      <p id="message" style="margin-top:15px;"></p>
+
+    </div>
+
+  </div>
+
+
+  <div id="app" class="app">
+
+    <aside class="sidebar">
+
+      <div class="brand">
+        DRELLE FINANCING
+      </div>
+
+      <div class="nav">
+
+        <button
+          class="active"
+          onclick="showSection('dashboard', this)">
+          Dashboard
+        </button>
+
+        <button
+          onclick="showSection('customers', this)">
+          Customers
+        </button>
+
+        <button
+          onclick="showSection('financing', this)">
+          Financing
+        </button>
+
+        <button
+          onclick="showSection('payments', this)">
+          Payments
+        </button>
+
+        <button
+          onclick="showSection('reports', this)">
+          Reports
+        </button>
+
+        <button
+          onclick="showSection('qr', this)">
+          QR Access
+        </button>
+
+        <button
+          onclick="showSection('users', this)">
+          Users
+        </button>
+
+        <button
+          onclick="showSection('settings', this)">
+          Settings
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <main class="main">
+
+      <div class="top">
+
+        <div>
+
+          <h2 id="title">
+            Dashboard
+          </h2>
+
+          <p>
+            Welcome to DRELLE FINANCING
+          </p>
+
+        </div>
+
+        <button onclick="logout()">
+          Log out
+        </button>
+
+      </div>
+
+
+      <section
+        id="dashboard"
+        class="section active">
+
+        <div class="cards">
+
+          <div class="card">
+
+            <div class="muted">
+              Customers
+            </div>
+
+            <div class="number">
+              0
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="muted">
+              Financing
+            </div>
+
+            <div class="number">
+              TZS 0
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="muted">
+              Payments
+            </div>
+
+            <div class="number">
+              TZS 0
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="muted">
+              Outstanding
+            </div>
+
+            <div class="number">
+              TZS 0
+            </div>
+
+          </div>
+
+        </div>
+
+        <br>
+
+        <div class="card">
+
+          <h3>
+            Financial Overview
+          </h3>
+
+          <p>
+            Charts and financial statistics
+            will appear here.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <section
+        id="customers"
+        class="section">
+
+        <div class="card">
+
+          <h2>
+            Customers
+          </h2>
+
+          <p>
+            Manage DRELLE FINANCING customers.
+          </p>
+
+          <button class="primary">
+            + Add Customer
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <section
+        id="financing"
+        class="section">
+
+        <div class="card">
+
+          <h2>
+            Financing
+          </h2>
+
+          <p>
+            Manage customer financing.
+          </p>
+
+          <button class="primary">
+            + New Financing
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <section
+        id="payments"
+        class="section">
+
+        <div class="card">
+
+          <h2>
+            Payments
+          </h2>
+
+          <p>
+            Record and manage payments.
+          </p>
+
+          <button class="primary">
+            + Record Payment
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <section
+        id="reports"
+        class="section">
+
+        <div class="card">
+
+          <h2>
+            Reports
+          </h2>
+
+          <p>
+            Daily, weekly and monthly
+            financial reports.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <section
+        id="qr"
+        class="section">
+
+        <div class="card">
+
+          <h2>
+            DRELLE QR Access
+          </h2>
+
+          <p>
+            Private QR access for
+            DRELLE FINANCING.
+          </p>
+
+          <strong>
+            🔐 DRELLE ONLY
+          </strong>
+
+        </div>
+
+      </section>
+
+
+      <section
+        id="users"
+        class="section">
+
+        <div class="card">
+
+          <h2>
+            User Management
+          </h2>
+
+          <p>
+            Admin can manage system users.
+          </p>
+
+          <p>
+            Admin • Staff • Collector
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <section
+        id="settings"
+        class="section">
+
+        <div class="card">
+
+          <h2>
+            Settings
+          </h2>
+
+          <br>
+
+          <label>
+            Currency
+          </label>
+
+          <select>
+
+            <option>
+              TZS — Tanzanian Shilling
+            </option>
+
+            <option>
+              USD — US Dollar
+            </option>
+
+            <option>
+              EUR — Euro
+            </option>
+
+            <option>
+              GBP — Pound Sterling
+            </option>
+
+            <option>
+              KES — Kenyan Shilling
+            </option>
+
+            <option>
+              UGX — Ugandan Shilling
+            </option>
+
+          </select>
+
+
+          <label>
