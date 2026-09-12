@@ -5,6 +5,1098 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DRELLE FINANCING</title>
 
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    .login {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #102b69, #2f6fed);
+    }
+
+    .login-box {
+      background: white;
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.2);
+    }
+
+    .logo {
+      width: 65px;
+      height: 65px;
+      background: #102b69;
+      color: white;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 13px 18px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary {
+      background: #102b69;
+      color: white;
+      width: 100%;
+    }
+
+    .secondary {
+      background: transparent;
+      color: #102b69;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .link-button {
+      background: none;
+      color: #2f6fed;
+      padding: 5px;
+      margin-top: 5px;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .app {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 230px;
+      background: #102b69;
+      color: white;
+      padding: 22px 15px;
+    }
+
+    .brand {
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .nav button {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      color: #dbe6ff;
+      margin: 4px 0;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      background: rgba(255,255,255,.15);
+      color: white;
+    }
+
+    .main {
+      margin-left: 230px;
+      padding: 25px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      align-items: center;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .number {
+      font-size: 25px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .muted {
+      color: #6b7280;
+    }
+
+    @media(max-width:800px) {
+      .sidebar {
+        width: 70px;
+      }
+
+      .brand {
+        font-size: 0;
+      }
+
+      .brand::after {
+        content: "DF";
+        font-size: 18px;
+      }
+
+      .nav button {
+        font-size: 0;
+        text-align: center;
+      }
+
+      .main {
+        margin-left: 70px;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width:500px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .main {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGIN / AUTH -->
+  <div id="login" class="login">
+
+    <div class="login-box">
+
+      <div class="logo">DF</div>
+
+      <h1>DRELLE FINANCING</h1>
+
+      <p>Financial Management System</p>
+
+      <!-- SIGN IN -->
+      <div id="signinForm">
+
+        <label>Email</label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+        >
+
+        <label>Password</label>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter password"
+          autocomplete="current-password"
+        >
+
+        <button class="primary" onclick="login()">
+          Sign In
+        </button>
+
+        <button class="link-button" onclick="showForgot()">
+          Forgot Password?
+        </button>
+
+        <button class="secondary" onclick="showSignup()">
+          Create Account
+        </button>
+
+      </div>
+
+
+      <!-- CREATE ACCOUNT -->
+      <div id="signupForm" class="hidden">
+
+        <h2 style="margin-bottom:15px;">
+          Create Account
+        </h2>
+
+        <label>Full Name</label>
+
+        <input
+          type="text"
+          id="signupName"
+          placeholder="Enter your full name"
+        >
+
+        <label>Email</label>
+
+        <input
+          type="email"
+          id="signupEmail"
+          placeholder="Enter your email"
+          autocomplete="email"
+        >
+
+        <label>Password</label>
+
+        <input
+          type="password"
+          id="signupPassword"
+          placeholder="Create a password"
+          autocomplete="new-password"
+        >
+
+        <button class="primary" onclick="signup()">
+          Create Account
+        </button>
+
+        <button class="secondary" onclick="showSignin()">
+          Back to Sign In
+        </button>
+
+      </div>
+
+
+      <!-- FORGOT PASSWORD -->
+      <div id="forgotForm" class="hidden">
+
+        <h2 style="margin-bottom:15px;">
+          Reset Password
+        </h2>
+
+        <p>
+          Enter your email and we will send you a password reset link.
+        </p>
+
+        <label>Email</label>
+
+        <input
+          type="email"
+          id="resetEmail"
+          placeholder="Enter your email"
+        >
+
+        <button class="primary" onclick="resetPassword()">
+          Send Reset Link
+        </button>
+
+        <button class="secondary" onclick="showSignin()">
+          Back to Sign In
+        </button>
+
+      </div>
+
+
+      <p id="message" class="message"></p>
+
+    </div>
+
+  </div>
+
+
+  <!-- MAIN APP -->
+  <div id="app" class="app">
+
+    <aside class="sidebar">
+
+      <div class="brand">
+        DRELLE FINANCING
+      </div>
+
+      <div class="nav">
+
+        <button
+          class="active"
+          onclick="showSection('dashboard', this)">
+          Dashboard
+        </button>
+
+        <button
+          onclick="showSection('customers', this)">
+          Customers
+        </button>
+
+        <button
+          onclick="showSection('financing', this)">
+          Financing
+        </button>
+
+        <button
+          onclick="showSection('payments', this)">
+          Payments
+        </button>
+
+        <button
+          onclick="showSection('reports', this)">
+          Reports
+        </button>
+
+        <button
+          onclick="showSection('qr', this)">
+          QR Access
+        </button>
+
+        <button
+          onclick="showSection('users', this)">
+          Users
+        </button>
+
+        <button
+          onclick="showSection('settings', this)">
+          Settings
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <main class="main">
+
+      <div class="top">
+
+        <div>
+
+          <h2 id="title">
+            Dashboard
+          </h2>
+
+          <p id="welcomeText">
+            Welcome to DRELLE FINANCING
+          </p>
+
+        </div>
+
+        <button onclick="logout()">
+          Log out
+        </button>
+
+      </div>
+
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="section active">
+
+        <div class="cards">
+
+          <div class="card">
+            <div class="muted">Customers</div>
+            <div class="number">0</div>
+          </div>
+
+          <div class="card">
+            <div class="muted">Financing</div>
+            <div class="number">TZS 0</div>
+          </div>
+
+          <div class="card">
+            <div class="muted">Payments</div>
+            <div class="number">TZS 0</div>
+          </div>
+
+          <div class="card">
+            <div class="muted">Outstanding</div>
+            <div class="number">TZS 0</div>
+          </div>
+
+        </div>
+
+        <br>
+
+        <div class="card">
+
+          <h3>
+            Financial Overview
+          </h3>
+
+          <p>
+            Charts and financial statistics
+            will appear here.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- CUSTOMERS -->
+      <section id="customers" class="section">
+
+        <div class="card">
+
+          <h2>Customers</h2>
+
+          <p>
+            Manage DRELLE FINANCING customers.
+          </p>
+
+          <button class="primary">
+            + Add Customer
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- FINANCING -->
+      <section id="financing" class="section">
+
+        <div class="card">
+
+          <h2>Financing</h2>
+
+          <p>
+            Manage customer financing.
+          </p>
+
+          <button class="primary">
+            + New Financing
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- PAYMENTS -->
+      <section id="payments" class="section">
+
+        <div class="card">
+
+          <h2>Payments</h2>
+
+          <p>
+            Record and manage payments.
+          </p>
+
+          <button class="primary">
+            + Record Payment
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- REPORTS -->
+      <section id="reports" class="section">
+
+        <div class="card">
+
+          <h2>Reports</h2>
+
+          <p>
+            Daily, weekly and monthly
+            financial reports.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- QR -->
+      <section id="qr" class="section">
+
+        <div class="card">
+
+          <h2>DRELLE QR Access</h2>
+
+          <p>
+            Private QR access for
+            DRELLE FINANCING.
+          </p>
+
+          <strong>
+            🔐 DRELLE ONLY
+          </strong>
+
+        </div>
+
+      </section>
+
+
+      <!-- USERS -->
+      <section id="users" class="section">
+
+        <div class="card">
+
+          <h2>User Management</h2>
+
+          <p>
+            Admin can manage system users.
+          </p>
+
+          <p>
+            Admin • Staff • Collector
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- SETTINGS -->
+      <section id="settings" class="section">
+
+        <div class="card">
+
+          <h2>Settings</h2>
+
+          <br>
+
+          <label>Currency</label>
+
+          <select>
+
+            <option>TZS — Tanzanian Shilling</option>
+            <option>USD — US Dollar</option>
+            <option>EUR — Euro</option>
+            <option>GBP — Pound Sterling</option>
+            <option>KES — Kenyan Shilling</option>
+            <option>UGX — Ugandan Shilling</option>
+
+          </select>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <script>
+
+    /* ==============================
+       SUPABASE CONNECTION
+       ============================== */
+
+    const SUPABASE_URL =
+      "https://iwuvauzaafecuuouiyml.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_X9au3H_XdNYXvqY29unIYA_SQrQHa3c";
+
+    const { createClient } = supabase;
+
+    const supabaseClient = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+    /* ==============================
+       MESSAGE
+       ============================== */
+
+    function showMessage(text, success = false) {
+
+      const message =
+        document.getElementById("message");
+
+      message.textContent = text;
+
+      message.style.color =
+        success ? "green" : "#d32f2f";
+    }
+
+
+    /* ==============================
+       AUTH FORM SWITCHING
+       ============================== */
+
+    function showSignin() {
+
+      document
+        .getElementById("signinForm")
+        .classList.remove("hidden");
+
+      document
+        .getElementById("signupForm")
+        .classList.add("hidden");
+
+      document
+        .getElementById("forgotForm")
+        .classList.add("hidden");
+
+      showMessage("");
+    }
+
+
+    function showSignup() {
+
+      document
+        .getElementById("signinForm")
+        .classList.add("hidden");
+
+      document
+        .getElementById("signupForm")
+        .classList.remove("hidden");
+
+      document
+        .getElementById("forgotForm")
+        .classList.add("hidden");
+
+      showMessage("");
+    }
+
+
+    function showForgot() {
+
+      document
+        .getElementById("signinForm")
+        .classList.add("hidden");
+
+      document
+        .getElementById("signupForm")
+        .classList.add("hidden");
+
+      document
+        .getElementById("forgotForm")
+        .classList.remove("hidden");
+
+      showMessage("");
+    }
+
+
+    /* ==============================
+       SIGN UP
+       ============================== */
+
+    async function signup() {
+
+      const name =
+        document
+          .getElementById("signupName")
+          .value
+          .trim();
+
+      const email =
+        document
+          .getElementById("signupEmail")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("signupPassword")
+          .value;
+
+      if (!name || !email || !password) {
+
+        showMessage(
+          "Please fill in all fields."
+        );
+
+        return;
+      }
+
+      if (password.length < 6) {
+
+        showMessage(
+          "Password must be at least 6 characters."
+        );
+
+        return;
+      }
+
+      showMessage(
+        "Creating your account...",
+        true
+      );
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+
+          email: email,
+
+          password: password,
+
+          options: {
+
+            data: {
+              full_name: name
+            }
+
+          }
+
+        });
+
+
+      if (error) {
+
+        showMessage(error.message);
+
+        return;
+      }
+
+
+      if (data.session) {
+
+        showMessage(
+          "Account created successfully.",
+          true
+        );
+
+        showApp(data.user);
+
+      } else {
+
+        showMessage(
+          "Account created. Please check your email if confirmation is required.",
+          true
+        );
+
+        showSignin();
+
+      }
+
+    }
+
+
+    /* ==============================
+       SIGN IN
+       ============================== */
+
+    async function login() {
+
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("password")
+          .value;
+
+      if (!email || !password) {
+
+        showMessage(
+          "Please enter your email and password."
+        );
+
+        return;
+      }
+
+      showMessage(
+        "Signing in...",
+        true
+      );
+
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+
+          email: email,
+
+          password: password
+
+        });
+
+
+      if (error) {
+
+        showMessage(error.message);
+
+        return;
+      }
+
+
+      showApp(data.user);
+
+    }
+
+
+    /* ==============================
+       FORGOT PASSWORD
+       ============================== */
+
+    async function resetPassword() {
+
+      const email =
+        document
+          .getElementById("resetEmail")
+          .value
+          .trim();
+
+      if (!email) {
+
+        showMessage(
+          "Please enter your email."
+        );
+
+        return;
+      }
+
+
+      showMessage(
+        "Sending reset link...",
+        true
+      );
+
+
+      const redirectUrl =
+        window.location.origin;
+
+
+      const { error } =
+        await supabaseClient.auth.resetPasswordForEmail(
+
+          email,
+
+          {
+            redirectTo: redirectUrl
+          }
+
+        );
+
+
+      if (error) {
+
+        showMessage(error.message);
+
+        return;
+      }
+
+
+      showMessage(
+        "Password reset link sent. Check your email.",
+        true
+      );
+
+    }
+
+
+    /* ==============================
+       SHOW APP
+       ============================== */
+
+    function showApp(user) {
+
+      document
+        .getElementById("login")
+        .style.display = "none";
+
+      document
+        .getElementById("app")
+        .style.display = "block";
+
+
+      if (user && user.user_metadata) {
+
+        const name =
+          user.user_metadata.full_name;
+
+        if (name) {
+
+          document
+            .getElementById("welcomeText")
+            .textContent =
+              "Welcome, " + name;
+
+        }
+
+      }
+
+    }
+
+
+    /* ==============================
+       LOGOUT
+       ============================== */
+
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      document
+        .getElementById("app")
+        .style.display = "none";
+
+      document
+        .getElementById("login")
+        .style.display = "flex";
+
+      document
+        .getElementById("email")
+        .value = "";
+
+      document
+        .getElementById("password")
+        .value = "";
+
+      showSignin();
+
+    }
+
+
+    /* ==============================
+       SESSION CHECK
+       ============================== */
+
+    async function checkSession() {
+
+      const { data } =
+        await supabaseClient.auth.getSession();
+
+      if (data.session) {
+
+        showApp(
+          data.session.user
+        );
+
+      }
+
+    }
+
+
+    /* ==============================
+       AUTH STATE
+       ============================== */
+
+    supabaseClient.auth.onAuthStateChange(
+
+      (event, session) => {
+
+        if (session) {
+
+          showApp(session.user);
+
+        }
+
+      }
+
+    );
+
+
+    /* ==============================
+       NAVIGATION
+       ============================== */
+
+    function showSection(
+      sectionId,
+      button
+    ) {
+
+      document
+        .querySelectorAll(".section")
+        .forEach(section => {
+
+          section.classList.remove("active");
+
+        });
+
+
+      document
+        .getElementById(sectionId)
+        .classList.add("active");
+
+
+      document
+        .querySelectorAll(".nav button")
+        .forEach(btn => {
+
+          btn.classList.remove("active");
+
+        });
+
+
+      button.classList.add("active");
+
+
+      const title =
+        document.getElementById("title");
+
+      title.textContent =
+        button.textContent.trim();
+
+    }
+
+
+    /* ==============================
+       START
+       ============================== */
+
+    checkSession();
+
+  </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRELLE FINANCING</title>
+
   <style>
     * {
       box-sizing: border-box;
